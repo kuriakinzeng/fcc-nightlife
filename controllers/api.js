@@ -22,9 +22,29 @@ const foursquare = require('node-foursquare')({
     redirectUrl: process.env.FOURSQUARE_REDIRECT_URL
   }
 });
-
 foursquare.Venues = bluebird.promisifyAll(foursquare.Venues);
 foursquare.Users = bluebird.promisifyAll(foursquare.Users);
+const yelp = require('yelp-fusion');
+
+/**
+ * GET /api/yelp
+ * Yelp API 
+ */
+exports.getYelp = (location, callback) => {
+  const searchRequest = {
+    categories:'bars',
+    location
+  };
+  yelp.accessToken(process.env.YELP_APP_ID, process.env.YELP_APP_SECRET)
+  .then(response => {
+    const client = yelp.client(response.jsonBody.access_token);
+    client.search(searchRequest).then(response => {
+      callback(null, response.jsonBody.businesses);
+    });
+  }).catch(err => {
+    callback(err, false);
+  });
+}
 
 /**
  * GET /api
@@ -451,6 +471,7 @@ exports.getLinkedin = (req, res, next) => {
  */
 exports.getInstagram = (req, res, next) => {
   const token = req.user.tokens.find(token => token.kind === 'instagram');
+  console.log('ig token',token);
   ig.use({ client_id: process.env.INSTAGRAM_ID, client_secret: process.env.INSTAGRAM_SECRET });
   ig.use({ access_token: token.accessToken });
   Promise.all([

@@ -510,6 +510,7 @@ passport.use('pinterest', new OAuth2Strategy({
  * Login Required middleware.
  */
 exports.isAuthenticated = (req, res, next) => {
+  console.log('isAuthenticated', req.isAuthenticated());
   if (req.isAuthenticated()) {
     return next();
   }
@@ -522,6 +523,7 @@ exports.isAuthenticated = (req, res, next) => {
 exports.isAuthorized = (req, res, next) => {
   const provider = req.path.split('/').slice(-1)[0];
   const token = req.user.tokens.find(token => token.kind === provider);
+  console.log('isAuthorized token', token);
   if (token) {
     next();
   } else {

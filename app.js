@@ -25,7 +25,7 @@ const upload = multer({ dest: path.join(__dirname, 'uploads') });
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env.example' });
+dotenv.load({ path: '.env' });
 
 /**
  * Controllers (route handlers).
@@ -112,12 +112,14 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+// 31557600000
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
 
 /**
  * Primary app routes.
  */
 app.get('/', homeController.index);
+app.post('/', homeController.postLocation);
 app.get('/login', userController.getLogin);
 app.post('/login', userController.postLogin);
 app.get('/logout', userController.logout);
@@ -134,6 +136,7 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
+
 
 /**
  * API examples routes.
@@ -167,6 +170,7 @@ app.post('/api/upload', upload.single('myFile'), apiController.postFileUpload);
 app.get('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.getPinterest);
 app.post('/api/pinterest', passportConfig.isAuthenticated, passportConfig.isAuthorized, apiController.postPinterest);
 app.get('/api/google-maps', apiController.getGoogleMaps);
+app.get('/api/yelp', apiController.getYelp);
 
 /**
  * OAuth authentication routes. (Sign in)
