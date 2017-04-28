@@ -16,11 +16,11 @@ exports.postLocation = (req, res, next) => {
   const location = req.body.location;
   apiController.getYelp(location, (err, bars) => {
     if(err) return next(err);
-    console.log(bars);
+    // console.log(bars);
     // add goingCount to all bars
     Bar.find({location}, function(err, barsFound){
       if(err) return next(err);
-      console.log(err, barsFound);
+      // console.log(err, barsFound);
       // bars.map((bar)=>{
       //   const sameBar = barsFound.find(barFound => (barFound._id==bar.id));
       //   console.log(sameBar);

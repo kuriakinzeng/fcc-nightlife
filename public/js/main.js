@@ -9,29 +9,33 @@ $(document).ready(function () {
   });
 
   $('#results').on('click', '.goingBtn', function (e) {
-    e.preventDefault();
     $('#searchError').html('');
     const dataObject = {
       id: e.target.id,
       location: localStorage.getItem('location'),
       _csrf: $('input[name=_csrf]').val()
     };
-    console.log('goingBtn', dataObject);
+    console.log('goingBtn', e.target, e.target.id);
     $.ajax({
       url: '/bars',
       type: 'PUT',
       contentType: "application/json",
       data: JSON.stringify(dataObject),
-      success: function (result) {
-        console.log(e.target.id,dataObject.id);
-        console.log(`#${dataObject.id}`);
-        // const goingCountEl = $(`#${dataObject.id}`).children('span');
-        // goingCountEl.html(parseInt(result)+parseInt(goingCountEl.html()));
+      success: function (response) {
+        const result = parseInt(response);
+        const goingCountEl = $(`#${dataObject.id}-count`);
+        const existingCount = parseInt(goingCountEl.html());
+        goingCountEl.html(result+existingCount);
+        if(result>0)
+          $(`#${dataObject.id}`).html('Not going');
+        else
+          $(`#${dataObject.id}`).html('Going');
       },
       error: function (err) {
         $('#searchError').html('<div class="alert alert-danger">Sorry, request could not complete at this time.</div>');
       }
     });
+    e.preventDefault();
   });
 
 
@@ -60,8 +64,9 @@ function searchLocation(storedLocation) {
         responseText += `<div class="thumbnail"><img src="${bar.image_url}"/>`;
         responseText += `<div class="caption">`;
         responseText += `<h4>${bar.name}</h4><p>Rating: ${bar.rating}</p>`;
+        responseText += `<p><span id="${bar.id}-count">${bar.goingCount || 0}</span> going</p>`
         if (response.userId)
-          responseText += `<a class="btn btn-primary btn-xs pull-right goingBtn" id=${bar.id} href="#"><span>${bar.goingCount}</span> Going </a>`;
+          responseText += `<a class="btn btn-primary btn-xs pull-right goingBtn" id=${bar.id} href="#">Going</a>`;
         responseText += '</div></div></div>';
       });
       $('#results').html(responseText);
