@@ -25,7 +25,9 @@ const upload = multer({ dest: path.join(__dirname, 'uploads') });
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env' });
+// dotenv.load({ path: '.env' });
+dotenv.config();
+console.log("mongolab:",process.env.MONGOLAB_URI);
 
 /**
  * Controllers (route handlers).
@@ -113,8 +115,8 @@ app.use((req, res, next) => {
   }
   next();
 });
-// 31557600000
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: 0 }));
+
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 /**
  * Primary app routes.
