@@ -40,6 +40,8 @@ exports.getYelp = (location, callback) => {
     const client = yelp.client(response.jsonBody.access_token);
     client.search(searchRequest).then(response => {
       callback(null, response.jsonBody.businesses);
+    }).catch(err => {
+      callback(err, false);
     });
   }).catch(err => {
     callback(err, false);

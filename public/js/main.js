@@ -77,7 +77,7 @@ function searchLocation(storedLocation) {
     })
     .fail(function (error) {
       $('#searchBtn').html('<i class="fa fa-search"></i> Search');
-      $('#status').html('<div class="alert alert-danger">Sorry, request could not complete at this time.</div>');
+      $('#status').html('<div class="alert alert-danger">Not available.</div>');
       $('#results').html('');
     });
 }
