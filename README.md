@@ -3,10 +3,13 @@
 **tl;dr:** Nightlife Coordination App allows users to see how many people are going to bars near them
 
 ## User Stories:
-TODO
+1. As an unauthenticated user, I can view all bars in my area.
+2. As an authenticated user, I can add myself to a bar to indicate I am going there tonight.
+3. As an authenticated user, I can remove myself from a bar if I no longer want to go there.
+4. As an unauthenticated user, when I login I should not have to search again.
 
 ## Architecture
-The app is built on Express with Pug as templating engine. It uses (https://github.com/sahat/hackathon-starter)[hackathon-starter] as a boilerplate.
+The app is built on Express with Pug as templating engine. It uses [hackathon-starter](https://github.com/sahat/hackathon-starter) as a boilerplate.
 
 ## Run locally
 ```npm install && npm run dev```

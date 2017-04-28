@@ -6,7 +6,7 @@ block content
   hr
   .row
     .col-xs-12
-      form.form-inline(method='POST')
+      form#locationForm.form-inline(method='POST')
         .form-group
           .input-group
             input(type='hidden', name='_csrf', value=_csrf)
@@ -15,12 +15,5 @@ block content
               button.btn.btn-primary(type='submit')
                 i.fa.fa-search
                 | Search
-      each bar, i in bars
-        .col-xs-6.col-sm-4.col-md-3
-          .thumbnail
-            img(src=bar.image_url)
-            .caption
-              h4 #{bar.name}
-              p Rating: #{bar.rating}
-                if userId
-                  a.btn.btn-primary.btn-xs.pull-right(href="#",class="goingBtn",id=bar.id) #{goingCount} Going
+      #searchError
+      #results
