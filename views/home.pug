@@ -12,8 +12,9 @@ block content
             input(type='hidden', name='_csrf', value=_csrf)
             input.form-control(type='text', name='location', id='location', autofocus=true, placeholder="Enter your city name", value=location)
             span.input-group-btn
-              button.btn.btn-primary(type='submit')
+              button.btn.btn-primary(type='submit',id='searchBtn')
                 i.fa.fa-search
                 | Search
-      #searchError
-      #results
+      #status
+  .row    
+    #results

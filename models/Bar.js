@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const barSchema = {
   _id: String,
-  location: [String],
+  location: String,
   goingUserId: [String]
 };
 

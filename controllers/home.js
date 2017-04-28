@@ -15,24 +15,18 @@ exports.index = (req, res) => {
 exports.postLocation = (req, res, next) => {
   const location = req.body.location;
   apiController.getYelp(location, (err, bars) => {
-    if(err) return next(err);
-    // console.log(bars);
-    // add goingCount to all bars
-    Bar.find({location}, function(err, barsFound){
-      if(err) return next(err);
-      // console.log(err, barsFound);
-      // bars.map((bar)=>{
-      //   const sameBar = barsFound.find(barFound => (barFound._id==bar.id));
-      //   console.log(sameBar);
-      //   bar["going"] = [];
-      //   if(sameBar.length > 0)
-      //     bar["going"] = sameBar.goingUserId;
-      // })
+    if (err) return next(err);
+    Bar.find({ location }, function (err, barsFound) {
+      if (err) return next(err);
+      bars.map((bar) => {
+        const sameBar = barsFound.find(barFound => (barFound._id == bar.id));
+        bar["goingUserId"] = (sameBar) ? sameBar.goingUserId : [];
+      });
+      res.json({
+        location,
+        bars,
+        userId: (req.user && req.user.id) || null,
+      })
     });
-    res.json({
-      location,
-      bars,
-      userId: (req.user && req.user.id) || null,
-    })
   })
 };
